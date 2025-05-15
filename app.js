@@ -1,7 +1,10 @@
 const axios = require("axios");
 const qs = require("qs");
 const env = require("dotenv");
-const { getCookies } = require("./getCookie");
+const { getCookies } = require("./functions/getCookie");
+const { getWebsite } = require("./functions/getWebsite");
+const { extractAttendance, extractCourseMap, extractTitle } = require("./functions/extractInformation");
+const { formatAttendanceForWhatsApp } = require("./functions/formatMessage");
 
 env.config()
 
@@ -20,10 +23,26 @@ const data = qs.stringify({
 	"captcha-response": "",
 });
 
-const cookie = getCookies(data)
 
-console.log("my cookie" + cookie)
 
 async function main() {
+    const cookie = await getCookies(data)
+    // console.log("my cookie" + cookie)
     
+    const websiteHTML = await getWebsite(cookie)
+    // console.log(typeof(websiteHTML))
+
+    const attendanceData = extractAttendance(websiteHTML)
+    console.log(attendanceData)
+
+    const courseNameMap = extractCourseMap(websiteHTML);
+    console.log(courseNameMap)
+
+    const title = extractTitle(websiteHTML)
+    console.log(title)
+    
+    const message = formatAttendanceForWhatsApp(attendanceData, courseNameMap, title)
+    console.log(message)
 }
+
+main()
