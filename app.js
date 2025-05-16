@@ -33,16 +33,17 @@ async function main() {
     // console.log(typeof(websiteHTML))
 
     const attendanceData = extractAttendance(websiteHTML)
-    console.log(attendanceData)
+    // console.log(attendanceData)
 
     const courseNameMap = extractCourseMap(websiteHTML);
-    console.log(courseNameMap)
+    // console.log(courseNameMap)
 
     const title = extractTitle(websiteHTML)
-    console.log(title)
+    // console.log(title)
     
     const message = formatAttendanceForWhatsApp(attendanceData, courseNameMap, title)
-    console.log(message)
+    // console.log(message)
+    return message
 }
 
-main()
+module.exports = {main}
