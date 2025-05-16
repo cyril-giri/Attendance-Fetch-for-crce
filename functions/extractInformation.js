@@ -98,19 +98,29 @@ function extractCourseMap(htmlString) {
 }
 
 function extractTitle(htmlString) {
-	const $ = cheerio.load(htmlString);
-	const title = $(
-		"div.cn-student-header.cn-grey-bg div.cn-stu-data1.uk-text-right.cn-mobile-text p"
-	)
-		.first()
-		.text()
-		.trim();
+	try {
+		const $ = cheerio.load(htmlString);
+		const title = $(
+			"div.cn-student-header.cn-grey-bg div.cn-stu-data1.uk-text-right.cn-mobile-text p"
+		)
+			.first()
+			.text()
+			.trim();
 
-	const lastUpdate = $("p.uk-text-right.cn-last-update").first().text().trim();
-	return {
-		title: title,
-		lastUpdate: lastUpdate,
-	};
-
+		const lastUpdate = $("p.uk-text-right.cn-last-update")
+			.first()
+			.text()
+			.trim();
+		return {
+			title: title,
+			lastUpdate: lastUpdate,
+		};
+	} catch (e) {
+		console.log(`error in extractTitle ${e.message}`);
+		return {
+			title: null,
+			lastUpdate: null,
+		};
+	}
 }
 module.exports = { extractAttendance, extractCourseMap, extractTitle };

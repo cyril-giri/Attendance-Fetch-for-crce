@@ -45,7 +45,7 @@ async function getCookies(data) {
 		const unformattedCookie = response.headers["set-cookie"][0];
 
 		const cookie = trimAt(unformattedCookie, ";");
-		console.log(cookie);
+		// console.log(cookie);
 
 		return cookie;
 	} catch (error) {
